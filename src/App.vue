@@ -1,14 +1,16 @@
 <template>
   <div id="app">
+    <shop />
   </div>
 </template>
 
 <script>
+import Shop from "./components/Shop.vue";
 
 export default {
   name: "App",
   components: {
-    Form,
+    Shop,
   },
 };
 </script>

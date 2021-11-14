@@ -1,8 +1,12 @@
-import Vue from 'vue';
-import App from './App.vue';
+import Vue from "vue";
+import App from "./App.vue";
+import store from "./store/store.js";
+import "normalize.css/normalize.css";
+import "./styles/styles.css";
 
 Vue.config.productionTip = false;
 
 new Vue({
-    render: (h) => h(App),
-}).$mount('#app');
+  render: (h) => h(App),
+  store,
+}).$mount("#app");
