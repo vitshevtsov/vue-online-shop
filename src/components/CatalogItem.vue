@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     onClickHandler() {
-      this.$emit("clickedItem", this.product.id);
+      this.$emit("clickedCatalogItem", this.product);
     },
   },
 };
@@ -27,13 +27,10 @@ export default {
 
 <style>
 .catalog-item {
-  /* display: block; */
-  /* color: var(--color); */
   flex-basis: 25%;
   box-shadow: 0 0 8px 0 #c0c0c0;
   padding: calc(var(--padding) * 2);
   margin: calc(var(--margin) * 2);
-  /* border: 1px solid blue; */
 }
 
 .catalog-item_img {

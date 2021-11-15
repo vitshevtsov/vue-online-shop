@@ -1,24 +1,14 @@
 <template>
   <div class="shop-wrapper">
-    <catalog
-      :products="products"
-      :price="price"
-      :arrayOfImgs="arrayOfImgs"
-      @clickedItem="clickedItem"
-    />
-    <cart />
+    <catalog />
+    <cart v-if="cart.length" />
   </div>
 </template>
 
 <script>
 import Catalog from "./Catalog.vue";
 import Cart from "./Cart.vue";
-
-// Получаем массив путей к изображениям товаров, сохраняем его в data
-// 2й аргумент context (boolean) - нужно ли рекурсивно просматривать всю папку
-const reqImgs = require.context("../assets/images", false, /\.webp$/);
-const pathToImgs = reqImgs.keys();
-const arrayOfImgs = pathToImgs.map((path) => reqImgs(path));
+import { mapGetters } from "vuex";
 
 export default {
   name: "Shop",
@@ -27,28 +17,12 @@ export default {
     Cart,
   },
   data() {
-    return {
-      products: [],
-      price: [],
-      arrayOfImgs,
-    };
+    return {};
   },
-  async created() {
-    const response = await fetch(
-      "https://random-data-api.com/api/food/random_food?size=12"
-    );
-    const products = await response.json();
-    this.products = products;
-
-    while (this.price.length !== 30) {
-      this.price.push(Math.floor(Math.random() * (200 - 1) + 1));
-    }
+  computed: {
+    ...mapGetters(["cart"]),
   },
-  methods: {
-    clickedItem(id) {
-      console.log(id);
-    },
-  },
+  methods: {},
 };
 </script>
 

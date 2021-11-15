@@ -4,29 +4,36 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
-      :price="price[products.indexOf(product)]"
+      :price="prices[products.indexOf(product)]"
       :imgPath="arrayOfImgs[products.indexOf(product)]"
-      @clickedItem="clickedItem"
+      @clickedCatalogItem="clickedCatalogItem"
     />
   </div>
 </template>
 
 <script>
 import CatalogItem from "./CatalogItem.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Catalog",
   components: {
     CatalogItem,
   },
-  props: {
-    products: Array,
-    price: Array,
-    arrayOfImgs: Array,
+  mounted() {
+    this.getProductsAndPrice().then((response) => {
+      if (response.products) {
+        console.log("we are get our products");
+      }
+    });
+  },
+  computed: {
+    ...mapGetters(["products", "prices", "arrayOfImgs"]),
   },
   methods: {
-    clickedItem(id) {
-      this.$emit("clickedItem", id);
+    ...mapActions(["getProductsAndPrice", "addToCart"]),
+    clickedCatalogItem(product) {
+      this.addToCart(product);
     },
   },
 };
