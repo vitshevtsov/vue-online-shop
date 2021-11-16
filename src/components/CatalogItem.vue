@@ -1,9 +1,14 @@
 <template>
   <div class="catalog-item">
-    <img :src="imgPath" alt="product image" class="catalog-item_img" />
+    <img
+      :src="product.pathToImg"
+      alt="product image"
+      class="catalog-item_img"
+    />
     <b>{{ product.dish }}</b>
     <div class="catalog-item_description">{{ product.description }}</div>
-    <p>price: {{ price }} $</p>
+    <p>price: {{ product.price }} $</p>
+
     <button class="catalog-item_button button" @click="onClickHandler">
       Add to cart
     </button>
@@ -14,8 +19,6 @@
 export default {
   props: {
     product: Object,
-    price: Number,
-    imgPath: String,
   },
   methods: {
     onClickHandler() {

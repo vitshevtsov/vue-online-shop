@@ -5,19 +5,24 @@
       v-for="product in cart"
       :key="product.id"
       :product="product"
-      :price="prices[products.indexOf(product)]"
-      :imgPath="arrayOfImgs[products.indexOf(product)]"
+      @clickedCartItem="clickedCartItem"
     />
   </div>
 </template>
 
 <script>
 import CartItem from "./CartItem.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: { CartItem },
   computed: {
-    ...mapGetters(["products", "prices", "arrayOfImgs", "cart"]),
+    ...mapGetters(["products", "cart"]),
+  },
+  methods: {
+    ...mapActions(["removeFromCart"]),
+    clickedCartItem(product) {
+      this.removeFromCart(product.id);
+    },
   },
 };
 </script>

@@ -4,8 +4,6 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
-      :price="prices[products.indexOf(product)]"
-      :imgPath="arrayOfImgs[products.indexOf(product)]"
       @clickedCatalogItem="clickedCatalogItem"
     />
   </div>
@@ -28,7 +26,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["products", "prices", "arrayOfImgs"]),
+    ...mapGetters(["products"]),
   },
   methods: {
     ...mapActions(["getProductsAndPrice", "addToCart"]),

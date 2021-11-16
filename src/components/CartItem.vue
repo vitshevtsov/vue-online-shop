@@ -1,10 +1,11 @@
 <template>
   <div class="cart-item">
-    <img :src="imgPath" alt="product image" class="cart-item_img" />
+    <img :src="product.pathToImg" alt="product image" class="cart-item_img" />
     <div class="cart-item_text">
       <b class="cart-item_title">{{ product.dish }}</b>
       <div class="cart-item_description">{{ product.description }}</div>
-      <p>price: {{ price }} $</p>
+      <p>price: {{ product.price }} $</p>
+      <p>quantity: {{ product.quantity }}</p>
     </div>
 
     <button class="cart-item_button button" @click="onClickHandler">
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     onClickHandler() {
-      console.log("click on item in cart");
+      this.$emit("clickedCartItem", this.product);
     },
   },
 };

@@ -12,17 +12,17 @@ const arrayOfImgs = pathToImgs.map((path) => reqImgs(path));
 const store = new Vuex.Store({
   state: {
     products: [],
-    price: [],
-    arrayOfImgs,
     cart: [],
   },
   mutations: {
-    setProductsAndPrice(state, { products, price }) {
+    setProductsAndPrice(state, products) {
       state.products = products;
-      state.price = price;
     },
-    setCart(state, product) {
-      state.cart.push(product);
+    pushToCart(state, productToCart) {
+      state.cart.push(productToCart);
+    },
+    spliceFromCart(state, cartItem) {
+      state.cart.splice(state.cart.indexOf(cartItem), 1);
     },
   },
   actions: {
@@ -32,31 +32,33 @@ const store = new Vuex.Store({
       const response = await fetch(
         "https://random-data-api.com/api/food/random_food?size=12"
       );
-      const products = await response.json();
+      const productsFromApi = await response.json();
 
-      // имитируем получение цены
-      const price = [];
-      while (price.length !== 12) {
-        price.push(Math.floor(Math.random() * (200 - 1) + 1));
-      }
-      commit("setProductsAndPrice", { products, price });
+      // добавляем свойства (цена, путь к картинке, признак избранного товара)
+      const products = productsFromApi.map((product) => {
+        product.price = Math.floor(Math.random() * (200 - 1) + 1);
+        product.pathToImg = arrayOfImgs[productsFromApi.indexOf(product)];
+        product.isFavorite = false;
+        return product;
+      });
+      commit("setProductsAndPrice", products);
       //   возвращаем на случай использования в компонентах при обработке ошибок
-      return { products, price };
+      return products;
     },
     addToCart({ commit }, product) {
-      console.log(`in actions: ${product}`);
-      commit("setCart", product);
+      const cartItem = this.state.cart.find((item) => item.id === product.id);
+      if (!cartItem) {
+        commit("pushToCart", { ...product, quantity: 1 });
+      }
+    },
+    removeFromCart({ commit }, id) {
+      const cartItem = this.state.cart.find((item) => item.id === id);
+      commit("spliceFromCart", cartItem);
     },
   },
   getters: {
     products(state) {
       return state.products;
-    },
-    prices(state) {
-      return state.price;
-    },
-    arrayOfImgs(state) {
-      return state.arrayOfImgs;
     },
     cart(state) {
       return state.cart;
