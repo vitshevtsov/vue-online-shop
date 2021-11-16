@@ -6,9 +6,29 @@
       <div class="cart-item_description">{{ product.description }}</div>
       <p>price: {{ product.price }} $</p>
       <p>quantity: {{ product.quantity }}</p>
-    </div>
 
-    <button class="cart-item_button button" @click="onClickHandler">
+      <!-- start quantity, need refactoring -->
+      <div class="quantity">
+        <h4 class="quantity__title">Quantity:</h4>
+        <div class="quantity__input-wrapper">
+          <button type="button" @click="onMinusClick" class="quantity__minus">
+            -
+          </button>
+          <input
+            type="number"
+            min="0"
+            :value="product.quantity"
+            readonly
+            class="quantity__input"
+          />
+          <button type="button" @click="onPlusClick" class="quantity__plus">
+            +
+          </button>
+        </div>
+      </div>
+      <!-- end quantity -->
+    </div>
+    <button class="cart-item_button button" @click="onRemoveClick">
       Remove from cart
     </button>
   </div>
@@ -22,8 +42,14 @@ export default {
     imgPath: String,
   },
   methods: {
-    onClickHandler() {
-      this.$emit("clickedCartItem", this.product);
+    onRemoveClick() {
+      this.$emit("clickedRemoveItem", this.product);
+    },
+    onMinusClick() {
+      this.$emit("clickedMinusQuantity", this.product);
+    },
+    onPlusClick() {
+      this.$emit("clickedPlusQuantity", this.product);
     },
   },
 };
@@ -56,5 +82,73 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   height: 3.4rem;
+}
+
+.quantity {
+  max-width: 90px;
+}
+
+.quantity__title {
+}
+
+.quantity__input-wrapper {
+  position: relative;
+}
+
+.quantity__minus {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  width: 26px;
+  text-align: center;
+  border: none;
+  background: none;
+  font-size: 24px;
+  line-height: 26px;
+  color: #2c3e50;
+}
+
+.quantity__minus:hover,
+.quantity__minus:focus {
+  opacity: 0.65;
+}
+
+.quantity__input {
+  height: auto;
+  width: 100%;
+  border: 2px solid #b9c3ce;
+  background: none;
+  text-align: center;
+  font-weight: 300;
+  line-height: 26px;
+  color: #2c3e50;
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+.quantity__input::-webkit-outer-spin-button,
+.quantity__input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.quantity__plus {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: 26px;
+  text-align: center;
+  border: none;
+  background: none;
+  font-size: 24px;
+  line-height: 26px;
+  color: #2c3e50;
+}
+
+.quantity__plus:hover,
+.quantity__plus:focus {
+  opacity: 0.65;
 }
 </style>

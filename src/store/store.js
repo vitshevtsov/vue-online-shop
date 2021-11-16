@@ -21,8 +21,14 @@ const store = new Vuex.Store({
     pushToCart(state, productToCart) {
       state.cart.push(productToCart);
     },
-    spliceFromCart(state, cartItem) {
-      state.cart.splice(state.cart.indexOf(cartItem), 1);
+    spliceFromCart(state, index) {
+      state.cart.splice(index, 1);
+    },
+    incrementQuantity(state, cartItem) {
+      cartItem.quantity++;
+    },
+    decrementQuantity(state, cartItem) {
+      cartItem.quantity--;
     },
   },
   actions: {
@@ -53,7 +59,18 @@ const store = new Vuex.Store({
     },
     removeFromCart({ commit }, id) {
       const cartItem = this.state.cart.find((item) => item.id === id);
-      commit("spliceFromCart", cartItem);
+      const index = this.state.cart.indexOf(cartItem);
+      commit("spliceFromCart", index);
+    },
+    incrementCartItem({ commit }, id) {
+      const cartItem = this.state.cart.find((item) => item.id === id);
+      commit("incrementQuantity", cartItem);
+    },
+    decrementCartItem({ commit }, id) {
+      const cartItem = this.state.cart.find((item) => item.id === id);
+      if (cartItem.quantity > 1) {
+        commit("decrementQuantity", cartItem);
+      }
     },
   },
   getters: {
@@ -62,6 +79,12 @@ const store = new Vuex.Store({
     },
     cart(state) {
       return state.cart;
+    },
+    totalSum(state) {
+      return state.cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
     },
   },
 });

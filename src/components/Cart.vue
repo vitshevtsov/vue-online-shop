@@ -1,12 +1,20 @@
 <template>
   <div class="cart">
-    <h2>Cart</h2>
+    <div class="cart--empty" v-if="!cart.length">
+      <p>Cart is empty</p>
+      <router-link to="/">
+        <button class="button">Start shopping</button>
+      </router-link>
+    </div>
     <cart-item
       v-for="product in cart"
       :key="product.id"
       :product="product"
-      @clickedCartItem="clickedCartItem"
+      @clickedRemoveItem="clickedRemoveItem"
+      @clickedMinusQuantity="clickedMinusQuantity"
+      @clickedPlusQuantity="clickedPlusQuantity"
     />
+    <div class="cart-total" v-if="cart.length">Total: {{ totalSum }}</div>
   </div>
 </template>
 
@@ -16,15 +24,31 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   components: { CartItem },
   computed: {
-    ...mapGetters(["products", "cart"]),
+    ...mapGetters(["products", "cart", "totalSum"]),
   },
   methods: {
-    ...mapActions(["removeFromCart"]),
-    clickedCartItem(product) {
+    ...mapActions(["removeFromCart", "incrementCartItem", "decrementCartItem"]),
+    clickedRemoveItem(product) {
       this.removeFromCart(product.id);
+    },
+    clickedMinusQuantity(product) {
+      this.decrementCartItem(product.id);
+    },
+    clickedPlusQuantity(product) {
+      this.incrementCartItem(product.id);
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cart--empty {
+  margin: auto;
+}
+</style>

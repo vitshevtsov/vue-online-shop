@@ -20,8 +20,11 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background-color: #fafafa;
-  padding: 24px;
+  /* padding: 24px; */
   box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-right: calc(-1 * (100vw - 100%));
 }
 
 html,
