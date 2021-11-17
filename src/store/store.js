@@ -68,9 +68,9 @@ const store = new Vuex.Store({
     },
     decrementCartItem({ commit }, id) {
       const cartItem = this.state.cart.find((item) => item.id === id);
-      if (cartItem.quantity > 1) {
-        commit("decrementQuantity", cartItem);
-      }
+      // if (cartItem.quantity > 1) {
+      commit("decrementQuantity", cartItem);
+      // }
     },
   },
   getters: {

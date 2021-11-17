@@ -4,7 +4,10 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
+      :itemInCart="cart.find((item) => item.id === product.id) ? true : false"
       @clickedCatalogItem="clickedCatalogItem"
+      @clickedMinusQuantity="clickedMinusQuantity"
+      @clickedPlusQuantity="clickedPlusQuantity"
     />
   </div>
 </template>
@@ -26,12 +29,23 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["products"]),
+    ...mapGetters(["products", "cart"]),
   },
   methods: {
-    ...mapActions(["getProductsAndPrice", "addToCart"]),
+    ...mapActions([
+      "getProductsAndPrice",
+      "addToCart",
+      "decrementCartItem",
+      "incrementCartItem",
+    ]),
     clickedCatalogItem(product) {
       this.addToCart(product);
+    },
+    clickedMinusQuantity(product) {
+      this.decrementCartItem(product.id);
+    },
+    clickedPlusQuantity(product) {
+      this.incrementCartItem(product.id);
     },
   },
 };

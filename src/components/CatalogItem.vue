@@ -9,20 +9,50 @@
     <div class="catalog-item_description">{{ product.description }}</div>
     <p>price: {{ product.price }} $</p>
 
-    <button class="catalog-item_button button" @click="onClickHandler">
+    <button
+      class="catalog-item_button button"
+      @click="onClickHandler"
+      v-show="!itemInCart"
+    >
       Add to cart
     </button>
+    <quantity-input
+      :value="cart.find((item) => item.id === product.id).quantity"
+      @clickedMinusQuantity="clickedMinusQuantity"
+      @clickedPlusQuantity="clickedPlusQuantity"
+      v-if="itemInCart"
+    />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import QuantityInput from "./QuantityInput.vue";
 export default {
+  components: { QuantityInput },
   props: {
     product: Object,
+    itemInCart: Boolean,
+  },
+  computed: {
+    ...mapGetters(["cart"]),
   },
   methods: {
+    ...mapActions(["removeFromCart"]),
     onClickHandler() {
       this.$emit("clickedCatalogItem", this.product);
+    },
+    clickedMinusQuantity() {
+      if (
+        this.cart.find((item) => item.id === this.product.id).quantity === 1
+      ) {
+        this.removeFromCart(this.product.id);
+      } else {
+        this.$emit("clickedMinusQuantity", this.product);
+      }
+    },
+    clickedPlusQuantity() {
+      this.$emit("clickedPlusQuantity", this.product);
     },
   },
 };
@@ -31,7 +61,7 @@ export default {
 <style>
 .catalog-item {
   flex-basis: 25%;
-  box-shadow: 0 0 8px 0 #c0c0c0;
+  box-shadow: 0 0 4px 0 #c0c0c0;
   padding: calc(var(--padding) * 2);
   margin: calc(var(--margin) * 2);
 }
@@ -49,4 +79,8 @@ export default {
   text-overflow: ellipsis;
   height: 3.4rem;
 }
+
+/* .catalog-item_button {
+  color: #fafafa;
+} */
 </style>

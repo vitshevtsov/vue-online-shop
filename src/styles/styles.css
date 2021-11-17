@@ -1,1 +1,16 @@
 @import "./variables.css";
+
+.button {
+    padding: var(--padding) calc(var(--padding)*2);
+    border-radius: var(--radius);
+    border: none;
+    color: #fafafa;
+    /* background-image: linear-gradient(150deg, #235ad1, #23d1a8); */
+    background-color: var(--primary);
+    cursor: pointer;
+}
+
+.button:hover, .button:focus {
+    background-image: linear-gradient(150deg, var(--primary), var(--secondary));
+    /* background-color: #235ad1; */
+}

@@ -1,7 +1,7 @@
 :root {
     --padding: 8px;
     --margin: 8px;
-    --color: red;
+    --primary: #235ad1;
+    --secondary:#23d1a8;
     --radius: 5px;
 }
-
