@@ -1,6 +1,6 @@
 <template>
   <div class="quantity">
-    <h4 class="quantity__title">Quantity:</h4>
+    <!-- <p class="quantity__title">Quantity:</p> -->
     <div class="quantity__input-wrapper">
       <button type="button" @click="onMinusClick" class="quantity__minus">
         -

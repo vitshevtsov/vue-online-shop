@@ -2,6 +2,8 @@
   <div class="shop-wrapper">
     <nav class="shop-nav">
       <router-link to="/">Catalog</router-link>
+      <router-link to="/favourites">Favourites</router-link>
+
       <router-link to="/cart">Cart: {{ cart.length }}</router-link>
     </nav>
     <div>
@@ -24,24 +26,23 @@ export default {
 
 <style scoped>
 .shop-wrapper {
-  /* display: flex;
-  flex-direction: column; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
   max-width: 1000px;
   margin: 0 auto;
-  border: 1px solid gray;
+  padding-bottom: calc(var(--padding) * 2);
+  border: 1px solid #b9c3ce;
+  border-top: none;
 }
 
 .shop-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  /* margin: var(--margin); */
   padding: var(--padding);
   position: sticky;
   top: 0;
   background-color: #fafafa;
+  z-index: 2;
 }
 
 .shop-nav a {
@@ -50,6 +51,5 @@ export default {
   border-bottom: 4px solid #b9c3ce;
   padding: calc(var(--padding) * 2) 0;
   margin: calc(var(--margin) * 2);
-  /* min-width: 40px; */
 }
 </style>

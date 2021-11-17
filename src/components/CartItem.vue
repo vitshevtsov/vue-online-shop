@@ -5,11 +5,14 @@
       <b class="cart-item_title">{{ product.dish }}</b>
       <div class="cart-item_description">{{ product.description }}</div>
       <p>price: {{ product.price }} $</p>
-      <quantity-input
-        :value="product.quantity"
-        @clickedMinusQuantity="clickedMinusQuantity"
-        @clickedPlusQuantity="clickedPlusQuantity"
-      />
+      <div class="cart-item_quantity-and-icon-wrapper">
+        <quantity-input
+          :value="product.quantity"
+          @clickedMinusQuantity="clickedMinusQuantity"
+          @clickedPlusQuantity="clickedPlusQuantity"
+        />
+        <icon-favourite :isFav="isFavourite" @onClickFav="onClickFav" />
+      </div>
     </div>
     <button class="cart-item_button button" @click="onRemoveClick">
       Remove from cart
@@ -18,15 +21,28 @@
 </template>
 
 <script>
+import IconFavourite from "./IconFavourite.vue";
 import QuantityInput from "./QuantityInput.vue";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-  components: { QuantityInput },
+  components: { QuantityInput, IconFavourite },
   props: {
     product: Object,
     price: Number,
     imgPath: String,
   },
+  computed: {
+    ...mapGetters(["products", "cart"]),
+    isFavourite: function () {
+      const productItem = this.products.find(
+        (item) => item.id === this.product.id
+      );
+      return productItem.isFavourite;
+    },
+  },
   methods: {
+    ...mapActions(["clickOnFav"]),
     onRemoveClick() {
       this.$emit("clickedRemoveItem", this.product);
     },
@@ -36,6 +52,9 @@ export default {
     clickedPlusQuantity() {
       this.$emit("clickedPlusQuantity", this.product);
     },
+    onClickFav() {
+      this.clickOnFav(this.product.id);
+    },
   },
 };
 </script>
@@ -44,15 +63,17 @@ export default {
 .cart-item {
   display: flex;
   flex-wrap: nowrap;
-  column-gap: 20px;
+  justify-content: space-between;
+  column-gap: 5px;
   align-items: center;
   box-shadow: 0 0 4px 0 #c0c0c0;
   padding: calc(var(--padding) * 2);
   margin: calc(var(--margin) * 2);
+  font-size: 0.85rem;
 }
 
 .cart-item_img {
-  max-width: 150px;
+  max-width: 100px;
   max-height: auto;
 }
 
@@ -67,5 +88,20 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   height: 3.4rem;
+}
+
+.cart-item_quantity-and-icon-wrapper {
+  display: flex;
+  column-gap: 20px;
+}
+
+.cart-item_button.cart-item_button {
+  background-color: #f91155;
+}
+
+.cart-item_button.cart-item_button:hover,
+.cart-item_button.cart-item_button:focus {
+  background-image: none;
+  opacity: 0.85;
 }
 </style>

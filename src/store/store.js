@@ -30,6 +30,12 @@ const store = new Vuex.Store({
     decrementQuantity(state, cartItem) {
       cartItem.quantity--;
     },
+    addToFav(state, productItem) {
+      productItem.isFavourite = true;
+    },
+    removeFromFav(state, productItem) {
+      productItem.isFavourite = false;
+    },
   },
   actions: {
     // todo try catch
@@ -44,12 +50,10 @@ const store = new Vuex.Store({
       const products = productsFromApi.map((product) => {
         product.price = Math.floor(Math.random() * (200 - 1) + 1);
         product.pathToImg = arrayOfImgs[productsFromApi.indexOf(product)];
-        product.isFavorite = false;
+        product.isFavourite = false;
         return product;
       });
       commit("setProductsAndPrice", products);
-      //   возвращаем на случай использования в компонентах при обработке ошибок
-      return products;
     },
     addToCart({ commit }, product) {
       const cartItem = this.state.cart.find((item) => item.id === product.id);
@@ -68,14 +72,23 @@ const store = new Vuex.Store({
     },
     decrementCartItem({ commit }, id) {
       const cartItem = this.state.cart.find((item) => item.id === id);
-      // if (cartItem.quantity > 1) {
       commit("decrementQuantity", cartItem);
-      // }
+    },
+    clickOnFav({ commit }, id) {
+      const productItem = this.state.products.find((item) => item.id === id);
+      if (productItem.isFavourite) {
+        commit("removeFromFav", productItem);
+      } else {
+        commit("addToFav", productItem);
+      }
     },
   },
   getters: {
     products(state) {
       return state.products;
+    },
+    favProducts(state) {
+      return state.products.filter((item) => item.isFavourite === true);
     },
     cart(state) {
       return state.cart;

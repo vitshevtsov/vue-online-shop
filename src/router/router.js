@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Catalog from "../components/Catalog.vue";
 import Cart from "../components/Cart.vue";
+import Favourites from "../components/Favourites.vue";
 
 Vue.use(Router);
 
@@ -12,7 +13,11 @@ const router = new Router({
       path: "/",
       name: "catalog",
       component: Catalog,
-      // ? нужно ли props: true? 8:15 6/8
+    },
+    {
+      path: "/favourites",
+      name: "favourites",
+      component: Favourites,
     },
     {
       path: "/cart",

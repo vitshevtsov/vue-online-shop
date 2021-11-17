@@ -66,6 +66,9 @@ export default {
 
 .cart--empty {
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cart-total-checkout {
@@ -84,6 +87,6 @@ export default {
 .cart-checkout-button.cart-checkout-button:hover,
 .cart-checkout-button.cart-checkout-button:focus {
   background-image: none;
-  opacity: 0.65;
+  opacity: 0.85;
 }
 </style>
