@@ -1,6 +1,5 @@
 <template>
   <div class="quantity">
-    <!-- <p class="quantity__title">Quantity:</p> -->
     <div class="quantity__input-wrapper">
       <button type="button" @click="onMinusClick" class="quantity__minus">
         -
@@ -40,9 +39,6 @@ export default {
 <style>
 .quantity {
   max-width: 90px;
-}
-
-.quantity__title {
 }
 
 .quantity__input-wrapper {

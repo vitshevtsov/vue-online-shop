@@ -19,7 +19,7 @@
 
     <button
       class="catalog-item_button button"
-      @click="onClickHandler"
+      @click="onClickAddHandler"
       v-show="!itemInCart"
     >
       Add to cart
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     ...mapActions(["removeFromCart", "clickOnFav"]),
-    onClickHandler() {
+    onClickAddHandler() {
       this.$emit("clickedCatalogItem", this.product);
     },
     onClickFav() {
@@ -72,9 +72,6 @@ export default {
 
 <style>
 .catalog-item {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
   flex-basis: 25%;
   box-shadow: 0 0 4px 0 #c0c0c0;
   padding: calc(var(--padding) * 2);

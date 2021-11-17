@@ -29,8 +29,6 @@ export default {
   components: { QuantityInput, IconFavourite },
   props: {
     product: Object,
-    price: Number,
-    imgPath: String,
   },
   computed: {
     ...mapGetters(["products", "cart"]),

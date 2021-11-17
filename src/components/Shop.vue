@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .shop-wrapper {
   max-width: 1000px;
   margin: 0 auto;
