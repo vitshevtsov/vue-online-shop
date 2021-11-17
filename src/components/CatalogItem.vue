@@ -25,7 +25,7 @@
       Add to cart
     </button>
     <quantity-input
-      :value="cart.find((item) => item.id === product.id).quantity"
+      :value="valueForQuantity"
       @clickedMinusQuantity="clickedMinusQuantity"
       @clickedPlusQuantity="clickedPlusQuantity"
       v-if="itemInCart"
@@ -37,6 +37,7 @@
 import { mapGetters, mapActions } from "vuex";
 import IconFavourite from "./IconFavourite.vue";
 import QuantityInput from "./QuantityInput.vue";
+
 export default {
   components: { QuantityInput, IconFavourite },
   props: {
@@ -45,6 +46,10 @@ export default {
   },
   computed: {
     ...mapGetters(["cart"]),
+    valueForQuantity: function () {
+      const cartItem = this.cart.find((item) => item.id === this.product.id);
+      return cartItem ? cartItem.quantity : "";
+    },
   },
   methods: {
     ...mapActions(["removeFromCart", "clickOnFav"]),
@@ -55,9 +60,8 @@ export default {
       this.clickOnFav(this.product.id);
     },
     clickedMinusQuantity() {
-      if (
-        this.cart.find((item) => item.id === this.product.id).quantity === 1
-      ) {
+      const cartItem = this.cart.find((item) => item.id === this.product.id);
+      if (cartItem && cartItem.quantity === 1) {
         this.removeFromCart(this.product.id);
       } else {
         this.$emit("clickedMinusQuantity", this.product);

@@ -1,13 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { getImages } from "../helpers/getImages.js";
 
 Vue.use(Vuex);
-
-// Получаем массив путей к изображениям товаров, сохраняем его в state
-// 2й аргумент метода context (boolean) - нужно ли рекурсивно просматривать всю папку
-const reqImgs = require.context("../assets/images", false, /\.webp$/);
-const pathToImgs = reqImgs.keys();
-const arrayOfImgs = pathToImgs.map((path) => reqImgs(path));
 
 const store = new Vuex.Store({
   state: {
@@ -47,7 +42,7 @@ const store = new Vuex.Store({
       const productsFromApi = await response.json();
       const products = productsFromApi.map((product) => {
         product.price = Math.floor(Math.random() * (200 - 1) + 1);
-        product.pathToImg = arrayOfImgs[productsFromApi.indexOf(product)];
+        product.pathToImg = getImages(productsFromApi.indexOf(product));
         product.isFavourite = false;
         return product;
       });

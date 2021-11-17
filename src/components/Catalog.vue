@@ -4,7 +4,7 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
-      :itemInCart="cart.find((item) => item.id === product.id) ? true : false"
+      :itemInCart="!!cart.find((item) => item.id === product.id)"
       @clickedCatalogItem="clickedCatalogItem"
       @clickedMinusQuantity="clickedMinusQuantity"
       @clickedPlusQuantity="clickedPlusQuantity"

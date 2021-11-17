@@ -26,6 +26,7 @@
 <script>
 import CartItem from "./CartItem.vue";
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   components: { CartItem },
   computed: {
