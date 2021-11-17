@@ -4,12 +4,19 @@
       <router-link to="/">Catalog</router-link>
       <router-link to="/favourites">Favourites</router-link>
 
-      <router-link to="/cart">Cart: {{ cart.length }}</router-link>
+      <router-link to="/cart"
+        >Cart:
+        <span :class="{ cartNotEmpty: cart.length }">{{
+          cart.length
+        }}</span></router-link
+      >
     </nav>
     <div>
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <transition name="fade">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
     </div>
   </div>
 </template>
@@ -51,5 +58,35 @@ export default {
   border-bottom: 4px solid #b9c3ce;
   padding: calc(var(--padding) * 2) 0;
   margin: calc(var(--margin) * 2);
+}
+
+.cartNotEmpty {
+  display: inline-block;
+  min-width: 20px;
+  color: #fafafa;
+  background-color: #f91155;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: normal;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-property: opacity;
+  transition-duration: 0.25s;
+}
+
+.fade-enter-active {
+  transition-delay: 0.25s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+.router-link-exact-active.router-link-exact-active {
+  color: var(--primary);
+  border-bottom: 4px solid var(--secondary);
 }
 </style>
